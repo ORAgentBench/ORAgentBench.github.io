@@ -1,4 +1,4 @@
-const SITE_VERSION = "2026-06-09-efficiency-v4";
+const SITE_VERSION = "2026-06-09-leaderboard-align-v1";
 const DATA_PATH = `assets/data/leaderboard.json?v=${SITE_VERSION}`;
 const EFFICIENCY_PATH = `assets/data/efficiency.json?v=${SITE_VERSION}`;
 
