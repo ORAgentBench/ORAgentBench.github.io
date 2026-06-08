@@ -93,7 +93,7 @@ img {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(14, 18, 24, 0.9), rgba(14, 18, 24, 0.68), rgba(14, 18, 24, 0.28)),
-    url("assets/brand/hero-background.png") center / cover no-repeat;
+    url("assets/brand/hero-background.png?v=2026-06-08-main-table-brand-v2") center / cover no-repeat;
 }
 
 .hero-overlay {

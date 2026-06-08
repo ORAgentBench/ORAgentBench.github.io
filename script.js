@@ -1,4 +1,5 @@
-const DATA_PATH = "assets/data/leaderboard.json";
+const SITE_VERSION = "2026-06-08-main-table-brand-v2";
+const DATA_PATH = `assets/data/leaderboard.json?v=${SITE_VERSION}`;
 
 const sortSelect = document.querySelector("#leaderboard-sort");
 const tableBody = document.querySelector("#leaderboard-body");
