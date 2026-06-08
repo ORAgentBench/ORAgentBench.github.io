@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ORAgentBench</title>
+    <meta
+      name="description"
+      content="ORAgentBench is an execution-grounded benchmark for evaluating autonomous agents on challenging end-to-end operations research tasks."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="ORAgentBench home">ORAgentBench</a>
+      <nav class="nav-links">
+        <a href="#benchmark">Benchmark</a>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="#figures">Figures</a>
+        <a href="#citation">Citation</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Execution-grounded operations research agent benchmark</p>
+          <h1 id="hero-title">ORAgentBench: Can LLM Agents Solve Challenging Operations Research Tasks End to End?</h1>
+          <p class="hero-summary">
+            ORAgentBench evaluates autonomous agents on realistic operations research workflows:
+            reading operational artifacts, building mathematical models, running solver code, and
+            submitting auditable decisions checked by hidden validators.
+          </p>
+          <div class="hero-actions" aria-label="Project links">
+            <a class="button primary" href="#leaderboard">Leaderboard</a>
+            <a class="button secondary is-disabled" href="#" aria-disabled="true">Paper coming soon</a>
+            <a class="button secondary is-disabled" href="#" aria-disabled="true">GitHub coming soon</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="stat-band" aria-label="Benchmark headline statistics">
+        <div>
+          <strong>107</strong>
+          <span>human-reviewed executable tasks</span>
+        </div>
+        <div>
+          <strong>14</strong>
+          <span>frontier model-agent rows</span>
+        </div>
+        <div>
+          <strong>42.99%</strong>
+          <span>best all-task pass rate</span>
+        </div>
+        <div>
+          <strong>20.59%</strong>
+          <span>best hard-task pass rate</span>
+        </div>
+        <div>
+          <strong>45m + 5m</strong>
+          <span>agent budget plus solve limit</span>
+        </div>
+      </section>
+
+      <section id="benchmark" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Benchmark</p>
+          <h2>Real OR work, not only formulation text</h2>
+          <p>
+            Each task packages a natural-language operational brief, multi-file data,
+            configuration artifacts, and a required submission schema inside an isolated
+            Harbor environment. Agents must produce executable solver code and decision
+            artifacts that pass schema, feasibility, and normalized quality checks.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>End-to-end workflow</h3>
+            <p>
+              Agents must reconcile public task files, design a model, implement a solver,
+              run it from scratch, and preserve a validated submission under runtime limits.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Operational artifacts</h3>
+            <p>
+              Data is presented as realistic tables, calendars, compatibility matrices,
+              scenario files, capacities, inventories, and route or schedule structures.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Hidden validation</h3>
+            <p>
+              Task validators score output schema validity, hard-constraint feasibility,
+              and objective quality without exposing hidden evaluator logic to agents.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Difficulty by structure</h3>
+            <p>
+              Easy, medium, and hard tasks are controlled by modeling burden, constraint
+              coupling, dynamic structure, data scale, and solving strategy requirements.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted" aria-labelledby="protocol-title">
+        <div class="split-layout">
+          <div>
+            <p class="eyebrow">Evaluation protocol</p>
+            <h2 id="protocol-title">Feasibility is necessary, quality is decisive</h2>
+            <p>
+              ORAgentBench reports feasibility, normalized quality, and pass rate.
+              A task is passed only when the submission is feasible and its normalized
+              quality exceeds the benchmark threshold. This exposes the feasibility-quality
+              gap: agents may produce valid decisions that still fall short of robust OR practice.
+            </p>
+          </div>
+          <div class="protocol-list" aria-label="Evaluation dimensions">
+            <div>
+              <span>01</span>
+              <p>Schema validity and required artifact checks</p>
+            </div>
+            <div>
+              <span>02</span>
+              <p>Hard operational constraints and domain rules</p>
+            </div>
+            <div>
+              <span>03</span>
+              <p>Normalized objective quality against task reference metrics</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="leaderboard" class="section">
+        <div class="section-heading compact">
+          <p class="eyebrow">Leaderboard</p>
+          <h2>Main results over 107 tasks</h2>
+          <p>
+            Rows are sorted by all-task pass rate. Quality is normalized as reported in
+            the paper experiment data. GPT-5.4 and GPT-5.4-mini include imputed trials
+            for missing or abnormal runs according to the local experiment notes.
+          </p>
+        </div>
+        <div class="table-tools" aria-label="Leaderboard controls">
+          <label for="leaderboard-sort">Sort by</label>
+          <select id="leaderboard-sort">
+            <option value="pass_rate_all">All pass rate</option>
+            <option value="pass_rate_hard">Hard pass rate</option>
+            <option value="quality">Quality</option>
+            <option value="feasibility">Feasibility</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Agent</th>
+                <th scope="col">Harness</th>
+                <th scope="col">Feas.</th>
+                <th scope="col">Quality</th>
+                <th scope="col">Easy</th>
+                <th scope="col">Medium</th>
+                <th scope="col">Hard</th>
+                <th scope="col">All</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr>
+                <td colspan="10">Loading leaderboard...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note" id="leaderboard-note">
+          Source: <code>ICLR_2027_ORBench/analysis_data/main_experiment_records.json</code>.
+        </p>
+      </section>
+
+      <section id="figures" class="section muted">
+        <div class="section-heading compact">
+          <p class="eyebrow">Analysis</p>
+          <h2>Benchmark composition and agent behavior</h2>
+          <p>
+            The project page reuses paper figures to summarize task construction,
+            benchmark pressure, quality sensitivity, and dominant failure modes.
+          </p>
+        </div>
+        <div class="figure-grid">
+          <figure>
+            <img src="assets/figures/benchmark-composition.png" alt="ORAgentBench benchmark composition overview">
+            <figcaption>Benchmark composition by difficulty pressure, task mode, and reference-model scale.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/figures/task-construction.png" alt="ORAgentBench task construction pipeline">
+            <figcaption>Task construction pipeline from scenario selection to human review.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/figures/threshold-pass-curves.png" alt="Pass-rate curves under increasing quality thresholds">
+            <figcaption>Pass-rate sensitivity under stricter normalized quality thresholds.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/figures/failure-distribution.png" alt="Failure-mode distribution across non-passing trajectories">
+            <figcaption>Failure-mode diagnostics across model-agent rows.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="citation" class="section">
+        <div class="section-heading compact">
+          <p class="eyebrow">Citation</p>
+          <h2>BibTeX</h2>
+          <p>Formal arXiv metadata will replace this placeholder after release.</p>
+        </div>
+        <pre class="citation-block"><code>@misc{oragentbench2026,
+  title        = {ORAgentBench: Can LLM Agents Solve Challenging Operations Research Tasks End to End?},
+  author       = {Jiajun Li},
+  year         = {2026},
+  note         = {arXiv coming soon}
+}</code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>ORAgentBench</span>
+      <span>Execution-grounded evaluation for operations research agents.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
