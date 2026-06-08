@@ -7,7 +7,8 @@ Static GitHub Pages site for `https://oragentbench.github.io/`.
 - `index.html` - single-page academic benchmark project page.
 - `styles.css` - responsive page styling.
 - `script.js` - leaderboard loader and sorter.
-- `assets/data/leaderboard.json` - generated from `ICLR_2027_ORBench/analysis_data/main_experiment_records.json`.
+- `assets/data/leaderboard.json` - generated from the main results table in `ICLR_2027_ORBench/sections/experiment.tex`.
+- `assets/brand/` - hero background and ORAgentBench logo assets.
 - `assets/figures/` - PNG exports of selected paper figures.
 
 ## Publish

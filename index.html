@@ -12,7 +12,9 @@
   </head>
   <body>
     <header class="site-header" aria-label="Primary navigation">
-      <a class="brand" href="#top" aria-label="ORAgentBench home">ORAgentBench</a>
+      <a class="brand" href="#top" aria-label="ORAgentBench home">
+        <img src="assets/brand/oragentbench-logo.svg" alt="ORAgentBench">
+      </a>
       <nav class="nav-links">
         <a href="#benchmark">Benchmark</a>
         <a href="#leaderboard">Leaderboard</a>
@@ -141,8 +143,8 @@
           <h2>Main results over 107 tasks</h2>
           <p>
             Rows are sorted by all-task pass rate. Quality is normalized as reported in
-            the paper experiment data. GPT-5.4 and GPT-5.4-mini include imputed trials
-            for missing or abnormal runs according to the local experiment notes.
+            the paper main table. Feasibility, quality, and pass-rate columns use the
+            same difficulty splits as the paper.
           </p>
         </div>
         <div class="table-tools" aria-label="Leaderboard controls">
@@ -150,35 +152,44 @@
           <select id="leaderboard-sort">
             <option value="pass_rate_all">All pass rate</option>
             <option value="pass_rate_hard">Hard pass rate</option>
-            <option value="quality">Quality</option>
-            <option value="feasibility">Feasibility</option>
+            <option value="quality">Weighted quality</option>
+            <option value="feasibility">Weighted feasibility</option>
           </select>
         </div>
         <div class="table-wrap">
           <table class="leaderboard-table">
             <thead>
               <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">Agent</th>
-                <th scope="col">Harness</th>
-                <th scope="col">Feas.</th>
-                <th scope="col">Quality</th>
+                <th scope="col" rowspan="2">Rank</th>
+                <th scope="col" rowspan="2">Agent</th>
+                <th scope="col" rowspan="2">Harness</th>
+                <th scope="col" colspan="3">Feasibility</th>
+                <th scope="col" colspan="3">Quality</th>
+                <th scope="col" colspan="4">Pass Rate</th>
+                <th scope="col" rowspan="2">Status</th>
+              </tr>
+              <tr>
+                <th scope="col">Easy</th>
+                <th scope="col">Medium</th>
+                <th scope="col">Hard</th>
+                <th scope="col">Easy</th>
+                <th scope="col">Medium</th>
+                <th scope="col">Hard</th>
                 <th scope="col">Easy</th>
                 <th scope="col">Medium</th>
                 <th scope="col">Hard</th>
                 <th scope="col">All</th>
-                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody id="leaderboard-body">
               <tr>
-                <td colspan="10">Loading leaderboard...</td>
+                <td colspan="14">Loading leaderboard...</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p class="table-note" id="leaderboard-note">
-          Source: <code>ICLR_2027_ORBench/analysis_data/main_experiment_records.json</code>.
+          Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
         </p>
       </section>
 

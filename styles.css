@@ -55,10 +55,17 @@ img {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
   color: var(--ink);
   font-weight: 800;
   letter-spacing: 0;
   text-decoration: none;
+}
+
+.brand img {
+  width: 192px;
+  height: auto;
 }
 
 .nav-links {
@@ -85,8 +92,8 @@ img {
   align-items: end;
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(14, 18, 24, 0.88), rgba(14, 18, 24, 0.68), rgba(14, 18, 24, 0.4)),
-    url("assets/figures/benchmark-composition.png") center / cover no-repeat;
+    linear-gradient(90deg, rgba(14, 18, 24, 0.9), rgba(14, 18, 24, 0.68), rgba(14, 18, 24, 0.28)),
+    url("assets/brand/hero-background.png") center / cover no-repeat;
 }
 
 .hero-overlay {
@@ -347,7 +354,7 @@ h3 {
 
 .leaderboard-table {
   width: 100%;
-  min-width: 980px;
+  min-width: 1320px;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -372,8 +379,8 @@ h3 {
 .leaderboard-table td:nth-child(2),
 .leaderboard-table th:nth-child(3),
 .leaderboard-table td:nth-child(3),
-.leaderboard-table th:nth-child(10),
-.leaderboard-table td:nth-child(10) {
+.leaderboard-table th:nth-child(14),
+.leaderboard-table td:nth-child(14) {
   text-align: left;
 }
 
@@ -420,11 +427,6 @@ h3 {
 .status-complete {
   background: rgba(47, 125, 79, 0.12);
   color: var(--green);
-}
-
-.status-imputed {
-  background: rgba(182, 84, 60, 0.12);
-  color: var(--clay);
 }
 
 .table-note {

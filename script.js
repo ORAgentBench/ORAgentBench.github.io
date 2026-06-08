@@ -16,9 +16,6 @@ function decimal(value) {
 }
 
 function statusLabel(row) {
-  if (row.status === "imputed") {
-    return `${row.observed}/${row.task_count} observed`;
-  }
   return "complete";
 }
 
@@ -34,15 +31,19 @@ function renderRows(sortKey = "pass_rate_all") {
   tableBody.innerHTML = rows
     .map((row, index) => {
       const rank = index + 1;
-      const statusClass = row.status === "imputed" ? "status-imputed" : "status-complete";
+      const statusClass = "status-complete";
       const topClass = rank <= 3 ? " top" : "";
       return `
         <tr>
           <td><span class="rank${topClass}">${rank}</span></td>
           <td><span class="agent-name">${row.agent}</span></td>
           <td>${row.harness}</td>
-          <td>${decimal(row.feasibility)}</td>
-          <td>${decimal(row.quality)}</td>
+          <td>${decimal(row.feasibility_easy)}</td>
+          <td>${decimal(row.feasibility_medium)}</td>
+          <td>${decimal(row.feasibility_hard)}</td>
+          <td>${decimal(row.quality_easy)}</td>
+          <td>${decimal(row.quality_medium)}</td>
+          <td>${decimal(row.quality_hard)}</td>
           <td>${percent(row.pass_rate_easy)}</td>
           <td>${percent(row.pass_rate_medium)}</td>
           <td>${percent(row.pass_rate_hard)}</td>
@@ -55,11 +56,10 @@ function renderRows(sortKey = "pass_rate_all") {
 }
 
 function renderNote() {
-  const imputation = metricNotes.gpt54_imputation || "GPT-5.4 rows use the local experiment imputation note when needed.";
   note.innerHTML = `
-    Source: <code>ICLR_2027_ORBench/analysis_data/main_experiment_records.json</code>.
+    Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
     Pass: <code>${metricNotes.pass || "feasibility > 0 and normalized quality > 0.4"}</code>.
-    ${imputation}
+    Status: all displayed model-agent rows are complete.
   `;
 }
 
@@ -77,7 +77,7 @@ async function loadLeaderboard() {
   } catch (error) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="10">
+        <td colspan="14">
           Leaderboard data could not be loaded. Start a local static server or deploy to GitHub Pages.
         </td>
       </tr>
