@@ -1,8 +1,9 @@
-const SITE_VERSION = "2026-06-08-main-table-brand-v2";
+const SITE_VERSION = "2026-06-08-responsive-leaderboard-v3";
 const DATA_PATH = `assets/data/leaderboard.json?v=${SITE_VERSION}`;
 
 const sortSelect = document.querySelector("#leaderboard-sort");
 const tableBody = document.querySelector("#leaderboard-body");
+const cardBody = document.querySelector("#leaderboard-cards");
 const note = document.querySelector("#leaderboard-note");
 
 let leaderboardRows = [];
@@ -54,6 +55,43 @@ function renderRows(sortKey = "pass_rate_all") {
       `;
     })
     .join("");
+
+  cardBody.innerHTML = rows
+    .map((row, index) => {
+      const rank = index + 1;
+      const topClass = rank <= 3 ? " top" : "";
+      return `
+        <article class="leaderboard-card">
+          <div class="card-head">
+            <span class="rank${topClass}">${rank}</span>
+            <div>
+              <h3>${row.agent}</h3>
+              <p>${row.harness}</p>
+            </div>
+            <span class="status-pill status-complete">${statusLabel(row)}</span>
+          </div>
+          <div class="card-main-score">
+            <span>All pass rate</span>
+            <strong>${percent(row.pass_rate_all)}</strong>
+          </div>
+          <div class="card-metrics">
+            <div>
+              <span>Feasibility</span>
+              <p>${decimal(row.feasibility_easy)} / ${decimal(row.feasibility_medium)} / ${decimal(row.feasibility_hard)}</p>
+            </div>
+            <div>
+              <span>Quality</span>
+              <p>${decimal(row.quality_easy)} / ${decimal(row.quality_medium)} / ${decimal(row.quality_hard)}</p>
+            </div>
+            <div>
+              <span>Pass E/M/H</span>
+              <p>${percent(row.pass_rate_easy)} / ${percent(row.pass_rate_medium)} / ${percent(row.pass_rate_hard)}</p>
+            </div>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
 }
 
 function renderNote() {
@@ -83,6 +121,7 @@ async function loadLeaderboard() {
         </td>
       </tr>
     `;
+    cardBody.innerHTML = "";
     note.textContent = `Failed to load ${DATA_PATH}: ${error.message}`;
   }
 }

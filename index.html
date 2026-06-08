@@ -8,13 +8,13 @@
       name="description"
       content="ORAgentBench is an execution-grounded benchmark for evaluating autonomous agents on challenging end-to-end operations research tasks."
     >
-    <meta name="oragentbench-site-version" content="2026-06-08-main-table-brand-v2">
-    <link rel="stylesheet" href="styles.css?v=2026-06-08-main-table-brand-v2">
+    <meta name="oragentbench-site-version" content="2026-06-08-responsive-leaderboard-v3">
+    <link rel="stylesheet" href="styles.css?v=2026-06-08-responsive-leaderboard-v3">
   </head>
   <body>
     <header class="site-header" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="ORAgentBench home">
-        <img src="assets/brand/oragentbench-logo.svg?v=2026-06-08-main-table-brand-v2" alt="ORAgentBench">
+        <img src="assets/brand/oragentbench-logo.svg?v=2026-06-08-responsive-leaderboard-v3" alt="ORAgentBench">
       </a>
       <nav class="nav-links">
         <a href="#benchmark">Benchmark</a>
@@ -159,6 +159,22 @@
         </div>
         <div class="table-wrap">
           <table class="leaderboard-table">
+            <colgroup>
+              <col class="col-rank">
+              <col class="col-agent">
+              <col class="col-harness">
+              <col class="col-metric">
+              <col class="col-metric">
+              <col class="col-metric">
+              <col class="col-metric">
+              <col class="col-metric">
+              <col class="col-metric">
+              <col class="col-pass">
+              <col class="col-pass">
+              <col class="col-pass">
+              <col class="col-pass-all">
+              <col class="col-status">
+            </colgroup>
             <thead>
               <tr>
                 <th scope="col" rowspan="2">Rank</th>
@@ -171,13 +187,13 @@
               </tr>
               <tr>
                 <th scope="col">Easy</th>
-                <th scope="col">Medium</th>
+                <th scope="col">Med.</th>
                 <th scope="col">Hard</th>
                 <th scope="col">Easy</th>
-                <th scope="col">Medium</th>
+                <th scope="col">Med.</th>
                 <th scope="col">Hard</th>
                 <th scope="col">Easy</th>
-                <th scope="col">Medium</th>
+                <th scope="col">Med.</th>
                 <th scope="col">Hard</th>
                 <th scope="col">All</th>
               </tr>
@@ -189,6 +205,7 @@
             </tbody>
           </table>
         </div>
+        <div class="leaderboard-cards" id="leaderboard-cards" aria-label="Leaderboard cards"></div>
         <p class="table-note" id="leaderboard-note">
           Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
         </p>
@@ -243,6 +260,6 @@
       <span>Execution-grounded evaluation for operations research agents.</span>
     </footer>
 
-    <script src="script.js?v=2026-06-08-main-table-brand-v2"></script>
+    <script src="script.js?v=2026-06-08-responsive-leaderboard-v3"></script>
   </body>
 </html>
