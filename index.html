@@ -8,17 +8,18 @@
       name="description"
       content="ORAgentBench is an execution-grounded benchmark for evaluating autonomous agents on challenging end-to-end operations research tasks."
     >
-    <meta name="oragentbench-site-version" content="2026-06-08-responsive-leaderboard-v3">
-    <link rel="stylesheet" href="styles.css?v=2026-06-08-responsive-leaderboard-v3">
+    <meta name="oragentbench-site-version" content="2026-06-09-efficiency-v4">
+    <link rel="stylesheet" href="styles.css?v=2026-06-09-efficiency-v4">
   </head>
   <body>
     <header class="site-header" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="ORAgentBench home">
-        <img src="assets/brand/oragentbench-logo.svg?v=2026-06-08-responsive-leaderboard-v3" alt="ORAgentBench">
+        <img src="assets/brand/oragentbench-logo.svg?v=2026-06-09-efficiency-v4" alt="ORAgentBench">
       </a>
       <nav class="nav-links">
         <a href="#benchmark">Benchmark</a>
         <a href="#leaderboard">Leaderboard</a>
+        <a href="#efficiency">Efficiency</a>
         <a href="#figures">Figures</a>
         <a href="#citation">Citation</a>
       </nav>
@@ -173,7 +174,6 @@
               <col class="col-pass">
               <col class="col-pass">
               <col class="col-pass-all">
-              <col class="col-status">
             </colgroup>
             <thead>
               <tr>
@@ -183,7 +183,6 @@
                 <th scope="col" colspan="3">Feasibility</th>
                 <th scope="col" colspan="3">Quality</th>
                 <th scope="col" colspan="4">Pass Rate</th>
-                <th scope="col" rowspan="2">Status</th>
               </tr>
               <tr>
                 <th scope="col">Easy</th>
@@ -200,7 +199,7 @@
             </thead>
             <tbody id="leaderboard-body">
               <tr>
-                <td colspan="14">Loading leaderboard...</td>
+                <td colspan="13">Loading leaderboard...</td>
               </tr>
             </tbody>
           </table>
@@ -208,6 +207,53 @@
         <div class="leaderboard-cards" id="leaderboard-cards" aria-label="Leaderboard cards"></div>
         <p class="table-note" id="leaderboard-note">
           Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
+        </p>
+      </section>
+
+      <section id="efficiency" class="section muted">
+        <div class="section-heading compact">
+          <p class="eyebrow">Efficiency</p>
+          <h2>Cost and time efficiency</h2>
+          <p>
+            This table compares accuracy with resource use. Cost and runtime are average
+            per-task values from the experiment summary; efficiency columns normalize
+            all-task pass rate by cost and runtime.
+          </p>
+        </div>
+        <div class="table-tools" aria-label="Efficiency controls">
+          <label for="efficiency-sort">Sort by</label>
+          <select id="efficiency-sort">
+            <option value="pass_rate_all">Pass rate</option>
+            <option value="passes_per_100_usd">Passes per $100</option>
+            <option value="passes_per_hour">Passes per hour</option>
+            <option value="avg_cost_usd">Lowest cost</option>
+            <option value="avg_time_min">Lowest time</option>
+          </select>
+        </div>
+        <div class="table-wrap efficiency-wrap">
+          <table class="efficiency-table">
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Agent</th>
+                <th scope="col">Harness</th>
+                <th scope="col">Pass Rate</th>
+                <th scope="col">Avg Cost / Task</th>
+                <th scope="col">Avg Time / Task</th>
+                <th scope="col">Passes / $100</th>
+                <th scope="col">Passes / Hour</th>
+              </tr>
+            </thead>
+            <tbody id="efficiency-body">
+              <tr>
+                <td colspan="8">Loading efficiency data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="efficiency-cards" id="efficiency-cards" aria-label="Efficiency cards"></div>
+        <p class="table-note" id="efficiency-note">
+          Source: <code>ICLR_2027_ORBench/analysis_data/main_experiment_records.json</code>, experiment summary.
         </p>
       </section>
 
@@ -260,6 +306,6 @@
       <span>Execution-grounded evaluation for operations research agents.</span>
     </footer>
 
-    <script src="script.js?v=2026-06-08-responsive-leaderboard-v3"></script>
+    <script src="script.js?v=2026-06-09-efficiency-v4"></script>
   </body>
 </html>

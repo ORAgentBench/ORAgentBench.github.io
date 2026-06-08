@@ -1,0 +1,165 @@
+{
+  "updated_from": "ICLR_2027_ORBench/analysis_data/main_experiment_records.json summary, joined with paper main table pass rates",
+  "metric_notes": {
+    "avg_cost_usd": "average API cost per task in USD from experiment summary",
+    "avg_time_min": "average trajectory runtime per task in minutes from experiment summary",
+    "passes_per_100_usd": "100 * all-task pass rate / average cost per task",
+    "passes_per_hour": "60 * all-task pass rate / average runtime per task"
+  },
+  "rows": [
+    {
+      "agent_key": "gpt53_codex",
+      "agent": "GPT-5.3-Codex",
+      "harness": "Codex",
+      "pass_rate_all": 0.4299,
+      "avg_cost_usd": 0.6041,
+      "avg_time_min": 17.3,
+      "passes_per_100_usd": 71.16,
+      "passes_per_hour": 1.49,
+      "rank": 1
+    },
+    {
+      "agent_key": "opus46",
+      "agent": "Claude Opus 4.6",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.3925,
+      "avg_cost_usd": 1.8834,
+      "avg_time_min": 21.48,
+      "passes_per_100_usd": 20.84,
+      "passes_per_hour": 1.1,
+      "rank": 2
+    },
+    {
+      "agent_key": "gpt54",
+      "agent": "GPT-5.4",
+      "harness": "Codex",
+      "pass_rate_all": 0.3738,
+      "avg_cost_usd": 1.09,
+      "avg_time_min": 12.71,
+      "passes_per_100_usd": 34.29,
+      "passes_per_hour": 1.76,
+      "rank": 3
+    },
+    {
+      "agent_key": "deepseek_v4_pro",
+      "agent": "DeepSeek V4 Pro",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.36450000000000005,
+      "avg_cost_usd": 0.305,
+      "avg_time_min": 20.28,
+      "passes_per_100_usd": 119.52,
+      "passes_per_hour": 1.08,
+      "rank": 4
+    },
+    {
+      "agent_key": "kimi_k26",
+      "agent": "Kimi K2.6",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.3458,
+      "avg_cost_usd": 0.5828,
+      "avg_time_min": 28.79,
+      "passes_per_100_usd": 59.34,
+      "passes_per_hour": 0.72,
+      "rank": 5
+    },
+    {
+      "agent_key": "sonnet46",
+      "agent": "Claude Sonnet 4.6",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.3458,
+      "avg_cost_usd": 1.9607,
+      "avg_time_min": 20.62,
+      "passes_per_100_usd": 17.64,
+      "passes_per_hour": 1.01,
+      "rank": 6
+    },
+    {
+      "agent_key": "glm51",
+      "agent": "GLM 5.1",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.3271,
+      "avg_cost_usd": 0.709,
+      "avg_time_min": 26.9,
+      "passes_per_100_usd": 46.14,
+      "passes_per_hour": 0.73,
+      "rank": 7
+    },
+    {
+      "agent_key": "deepseek_v4_flash",
+      "agent": "DeepSeek V4 Flash",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.3178,
+      "avg_cost_usd": 0.0347,
+      "avg_time_min": 11.67,
+      "passes_per_100_usd": 916.1,
+      "passes_per_hour": 1.63,
+      "rank": 8
+    },
+    {
+      "agent_key": "gpt54_mini",
+      "agent": "GPT-5.4-mini",
+      "harness": "Codex",
+      "pass_rate_all": 0.2897,
+      "avg_cost_usd": 0.5916,
+      "avg_time_min": 16.47,
+      "passes_per_100_usd": 48.97,
+      "passes_per_hour": 1.06,
+      "rank": 9
+    },
+    {
+      "agent_key": "qwen36_plus",
+      "agent": "Qwen3.6 Plus",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.271,
+      "avg_cost_usd": 0.1897,
+      "avg_time_min": 21.5,
+      "passes_per_100_usd": 142.85,
+      "passes_per_hour": 0.76,
+      "rank": 10
+    },
+    {
+      "agent_key": "mimo_v25_pro",
+      "agent": "MiMo V2.5 Pro",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.26170000000000004,
+      "avg_cost_usd": 1.4904,
+      "avg_time_min": 20.74,
+      "passes_per_100_usd": 17.56,
+      "passes_per_hour": 0.76,
+      "rank": 11
+    },
+    {
+      "agent_key": "glm5",
+      "agent": "GLM 5",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.2523,
+      "avg_cost_usd": 0.7575,
+      "avg_time_min": 15.68,
+      "passes_per_100_usd": 33.31,
+      "passes_per_hour": 0.97,
+      "rank": 12
+    },
+    {
+      "agent_key": "qwen35_plus",
+      "agent": "Qwen3.5 Plus",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.2336,
+      "avg_cost_usd": 0.1634,
+      "avg_time_min": 15.99,
+      "passes_per_100_usd": 142.95,
+      "passes_per_hour": 0.88,
+      "rank": 13
+    },
+    {
+      "agent_key": "minimax_m27",
+      "agent": "MiniMax-M2.7",
+      "harness": "Claude Code",
+      "pass_rate_all": 0.1589,
+      "avg_cost_usd": 0.2196,
+      "avg_time_min": 14.05,
+      "passes_per_100_usd": 72.37,
+      "passes_per_hour": 0.68,
+      "rank": 14
+    }
+  ]
+}
