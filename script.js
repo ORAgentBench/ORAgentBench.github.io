@@ -1,178 +1,237 @@
-const SITE_VERSION = "2026-06-09-leaderboard-align-v1";
+const SITE_VERSION = "2026-06-16-overview-leaderboard-v1";
 const DATA_PATH = `assets/data/leaderboard.json?v=${SITE_VERSION}`;
-const EFFICIENCY_PATH = `assets/data/efficiency.json?v=${SITE_VERSION}`;
 
-const sortSelect = document.querySelector("#leaderboard-sort");
-const tableBody = document.querySelector("#leaderboard-body");
-const cardBody = document.querySelector("#leaderboard-cards");
-const note = document.querySelector("#leaderboard-note");
-const efficiencySort = document.querySelector("#efficiency-sort");
-const efficiencyBody = document.querySelector("#efficiency-body");
-const efficiencyCards = document.querySelector("#efficiency-cards");
-const efficiencyNote = document.querySelector("#efficiency-note");
-
+const page = document.body.dataset.page;
 let leaderboardRows = [];
 let metricNotes = {};
-let efficiencyRows = [];
+let activeSplit = "overall";
 
-function percent(value) {
-  return `${(value * 100).toFixed(2)}%`;
+const splitConfig = {
+  overall: {
+    label: "Pass Rate",
+    passKey: "pass_rate_all",
+    feasibilityKey: "feasibility",
+    qualityKey: "quality",
+    countLabel: (row) => `${row.pass_count_all}/${row.task_count}`,
+  },
+  easy: {
+    label: "Easy Pass",
+    passKey: "pass_rate_easy",
+    feasibilityKey: "feasibility_easy",
+    qualityKey: "quality_easy",
+    countLabel: (row) => `${Math.round(row.pass_rate_easy * 32)}/32`,
+  },
+  medium: {
+    label: "Medium Pass",
+    passKey: "pass_rate_medium",
+    feasibilityKey: "feasibility_medium",
+    qualityKey: "quality_medium",
+    countLabel: (row) => `${Math.round(row.pass_rate_medium * 41)}/41`,
+  },
+  hard: {
+    label: "Hard Pass",
+    passKey: "pass_rate_hard",
+    feasibilityKey: "feasibility_hard",
+    qualityKey: "quality_hard",
+    countLabel: (row) => `${Math.round(row.pass_rate_hard * 34)}/34`,
+  },
+};
+
+const brandStyles = [
+  { bg: "#111318", fg: "#ffffff", bar: "#f59e0b" },
+  { bg: "#0d6b63", fg: "#ffffff", bar: "#2563eb" },
+  { bg: "#6f2b18", fg: "#ffffff", bar: "#b45309" },
+  { bg: "#e9eef7", fg: "#1f2937", bar: "#2f6fed" },
+  { bg: "#111827", fg: "#ffffff", bar: "#63738a" },
+  { bg: "#f3f4f6", fg: "#111827", bar: "#16a34a" },
+];
+
+function percent(value, digits = 1) {
+  return `${(value * 100).toFixed(digits)}%`;
 }
 
 function decimal(value) {
   return value.toFixed(3);
 }
 
-function money(value) {
-  return `$${value.toFixed(2)}`;
+function initials(name) {
+  return name
+    .replace(/Claude /g, "")
+    .replace(/DeepSeek /g, "DS ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
 }
 
-function renderRows(sortKey = "pass_rate_all") {
-  const rows = [...leaderboardRows].sort((a, b) => {
-    const primary = b[sortKey] - a[sortKey];
+function providerName(row) {
+  if (row.agent.startsWith("Claude")) return "Anthropic";
+  if (row.agent.startsWith("GPT")) return "OpenAI";
+  if (row.agent.startsWith("DeepSeek")) return "DeepSeek";
+  if (row.agent.startsWith("Kimi")) return "Moonshot AI";
+  if (row.agent.startsWith("GLM")) return "Zhipu AI";
+  if (row.agent.startsWith("Qwen")) return "Alibaba";
+  if (row.agent.startsWith("MiMo")) return "Xiaomi";
+  if (row.agent.startsWith("MiniMax")) return "MiniMax";
+  return row.harness;
+}
+
+function sortedRows(split = activeSplit) {
+  const config = splitConfig[split];
+  return [...leaderboardRows].sort((a, b) => {
+    const primary = b[config.passKey] - a[config.passKey];
     if (primary !== 0) return primary;
-    const quality = b.quality - a.quality;
+    const quality = b[config.qualityKey] - a[config.qualityKey];
     if (quality !== 0) return quality;
-    return b.feasibility - a.feasibility;
+    return b[config.feasibilityKey] - a[config.feasibilityKey];
   });
+}
 
-  tableBody.innerHTML = rows
-    .map((row, index) => {
-      const rank = index + 1;
-      const topClass = rank <= 3 ? " top" : "";
-      return `
-        <tr>
-          <td><span class="rank${topClass}">${rank}</span></td>
-          <td><span class="agent-name">${row.agent}</span></td>
-          <td>${row.harness}</td>
-          <td>${decimal(row.feasibility_easy)}</td>
-          <td>${decimal(row.feasibility_medium)}</td>
-          <td>${decimal(row.feasibility_hard)}</td>
-          <td>${decimal(row.quality_easy)}</td>
-          <td>${decimal(row.quality_medium)}</td>
-          <td>${decimal(row.quality_hard)}</td>
-          <td>${percent(row.pass_rate_easy)}</td>
-          <td>${percent(row.pass_rate_medium)}</td>
-          <td>${percent(row.pass_rate_hard)}</td>
-          <td><strong>${percent(row.pass_rate_all)}</strong></td>
-        </tr>
-      `;
-    })
-    .join("");
+function renderOverview() {
+  const target = document.querySelector("#overview-top-runs");
+  if (!target) return;
 
-  cardBody.innerHTML = rows
+  target.innerHTML = sortedRows("overall")
+    .slice(0, 5)
     .map((row, index) => {
-      const rank = index + 1;
-      const topClass = rank <= 3 ? " top" : "";
+      const style = brandStyles[index % brandStyles.length];
       return `
-        <article class="leaderboard-card">
-          <div class="card-head">
-            <span class="rank${topClass}">${rank}</span>
-            <div>
-              <h3>${row.agent}</h3>
-              <p>${row.harness}</p>
-            </div>
+        <article class="snapshot-row">
+          <span class="rank ${index < 3 ? "top" : ""}">${index + 1}</span>
+          <span class="model-avatar" style="--avatar-bg:${style.bg};--avatar-fg:${style.fg}">${initials(row.agent)}</span>
+          <div>
+            <strong>${row.agent}</strong>
+            <span>${providerName(row)} · ${row.harness}</span>
           </div>
-          <div class="card-main-score">
-            <span>All pass rate</span>
-            <strong>${percent(row.pass_rate_all)}</strong>
-          </div>
-          <div class="card-metrics">
-            <div>
-              <span>Feasibility</span>
-              <p>${decimal(row.feasibility_easy)} / ${decimal(row.feasibility_medium)} / ${decimal(row.feasibility_hard)}</p>
-            </div>
-            <div>
-              <span>Quality</span>
-              <p>${decimal(row.quality_easy)} / ${decimal(row.quality_medium)} / ${decimal(row.quality_hard)}</p>
-            </div>
-            <div>
-              <span>Pass E/M/H</span>
-              <p>${percent(row.pass_rate_easy)} / ${percent(row.pass_rate_medium)} / ${percent(row.pass_rate_hard)}</p>
-            </div>
-          </div>
+          <em>${percent(row.pass_rate_all)}</em>
         </article>
       `;
     })
     .join("");
 }
 
-function renderNote() {
+function renderLeaderboardNote() {
+  const note = document.querySelector("#leaderboard-note");
+  if (!note) return;
   note.innerHTML = `
     Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
     Pass: <code>${metricNotes.pass || "feasibility > 0 and normalized quality > 0.4"}</code>.
   `;
 }
 
-function sortEfficiencyRows(sortKey) {
-  return [...efficiencyRows].sort((a, b) => {
-    if (sortKey === "avg_cost_usd" || sortKey === "avg_time_min") {
-      return a[sortKey] - b[sortKey] || b.pass_rate_all - a.pass_rate_all;
-    }
-    return b[sortKey] - a[sortKey] || b.pass_rate_all - a.pass_rate_all;
-  });
-}
+function renderLeaderboard(split = activeSplit) {
+  const body = document.querySelector("#scoreboard-body");
+  const cards = document.querySelector("#score-cards");
+  const heading = document.querySelector("#primary-metric-heading");
+  if (!body || !cards) return;
 
-function renderEfficiency(sortKey = "pass_rate_all") {
-  const rows = sortEfficiencyRows(sortKey);
-  efficiencyBody.innerHTML = rows
+  activeSplit = split;
+  const config = splitConfig[split];
+  const rows = sortedRows(split);
+  const maxPass = Math.max(...rows.map((row) => row[config.passKey]), 0.01);
+  if (heading) heading.textContent = config.label;
+
+  body.innerHTML = rows
     .map((row, index) => {
-      const rank = index + 1;
-      const topClass = rank <= 3 ? " top" : "";
+      const style = brandStyles[index % brandStyles.length];
+      const pass = row[config.passKey];
+      const width = `${Math.max(3, (pass / maxPass) * 100).toFixed(1)}%`;
       return `
-        <tr>
-          <td><span class="rank${topClass}">${rank}</span></td>
-          <td><span class="agent-name">${row.agent}</span></td>
+        <tr class="${index === 0 ? "leader-row" : ""}">
+          <td><span class="rank ${index < 3 ? "top" : ""}">${index + 1}</span></td>
+          <td>
+            <div class="model-cell">
+              <span class="model-avatar" style="--avatar-bg:${style.bg};--avatar-fg:${style.fg}">${initials(row.agent)}</span>
+              <div>
+                <strong>${row.agent}</strong>
+                <span>${providerName(row)}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="score-bar-cell">
+              <span class="score-track"><span style="width:${width};background:${style.bar}"></span></span>
+              <strong>${percent(pass)}</strong>
+            </div>
+          </td>
+          <td>${decimal(row[config.feasibilityKey])}</td>
+          <td>${decimal(row[config.qualityKey])}</td>
+          <td>${config.countLabel(row)}</td>
           <td>${row.harness}</td>
-          <td><strong>${percent(row.pass_rate_all)}</strong></td>
-          <td>${money(row.avg_cost_usd)}</td>
-          <td>${row.avg_time_min.toFixed(2)} min</td>
-          <td>${row.passes_per_100_usd.toFixed(2)}</td>
-          <td>${row.passes_per_hour.toFixed(2)}</td>
         </tr>
       `;
     })
     .join("");
 
-  efficiencyCards.innerHTML = rows
+  cards.innerHTML = rows
     .map((row, index) => {
-      const rank = index + 1;
-      const topClass = rank <= 3 ? " top" : "";
+      const style = brandStyles[index % brandStyles.length];
       return `
-        <article class="leaderboard-card efficiency-card">
+        <article class="score-card">
           <div class="card-head">
-            <span class="rank${topClass}">${rank}</span>
+            <span class="rank ${index < 3 ? "top" : ""}">${index + 1}</span>
+            <span class="model-avatar" style="--avatar-bg:${style.bg};--avatar-fg:${style.fg}">${initials(row.agent)}</span>
             <div>
               <h3>${row.agent}</h3>
-              <p>${row.harness}</p>
+              <p>${providerName(row)} · ${row.harness}</p>
             </div>
           </div>
           <div class="card-main-score">
-            <span>All pass rate</span>
-            <strong>${percent(row.pass_rate_all)}</strong>
+            <span>${config.label}</span>
+            <strong>${percent(row[config.passKey])}</strong>
           </div>
-          <div class="card-metrics efficiency-card-metrics">
+          <div class="card-metrics">
             <div>
-              <span>Cost / Task</span>
-              <p>${money(row.avg_cost_usd)}</p>
+              <span>Feasibility</span>
+              <p>${decimal(row[config.feasibilityKey])}</p>
             </div>
             <div>
-              <span>Time / Task</span>
-              <p>${row.avg_time_min.toFixed(2)} min</p>
+              <span>Quality</span>
+              <p>${decimal(row[config.qualityKey])}</p>
             </div>
             <div>
-              <span>Passes / $100</span>
-              <p>${row.passes_per_100_usd.toFixed(2)}</p>
-            </div>
-            <div>
-              <span>Passes / Hour</span>
-              <p>${row.passes_per_hour.toFixed(2)}</p>
+              <span>Passed</span>
+              <p>${config.countLabel(row)}</p>
             </div>
           </div>
         </article>
       `;
     })
     .join("");
+
+  renderLeaderboardNote();
+}
+
+function bindLeaderboardControls() {
+  document.querySelectorAll("[data-board-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll("[data-board-tab]").forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      renderLeaderboard(button.dataset.boardTab);
+    });
+  });
+
+  const shareButton = document.querySelector("#share-button");
+  if (shareButton) {
+    shareButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        shareButton.textContent = "Copied";
+        window.setTimeout(() => {
+          shareButton.textContent = "Share";
+        }, 1400);
+      } catch {
+        shareButton.textContent = "Copy Failed";
+      }
+    });
+  }
+
+  const imageButton = document.querySelector("#image-button");
+  if (imageButton) {
+    imageButton.addEventListener("click", () => window.print());
+  }
 }
 
 async function loadLeaderboard() {
@@ -184,46 +243,21 @@ async function loadLeaderboard() {
     const payload = await response.json();
     leaderboardRows = payload.rows || [];
     metricNotes = payload.metric_notes || {};
-    renderRows(sortSelect.value);
-    renderNote();
+    if (page === "overview") renderOverview();
+    if (page === "leaderboard") renderLeaderboard();
   } catch (error) {
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="13">
-          Leaderboard data could not be loaded. Start a local static server or deploy to GitHub Pages.
-        </td>
-      </tr>
-    `;
-    cardBody.innerHTML = "";
-    note.textContent = `Failed to load ${DATA_PATH}: ${error.message}`;
-  }
-}
-
-sortSelect.addEventListener("change", () => renderRows(sortSelect.value));
-loadLeaderboard();
-
-efficiencySort.addEventListener("change", () => renderEfficiency(efficiencySort.value));
-
-async function loadEfficiency() {
-  try {
-    const response = await fetch(EFFICIENCY_PATH);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    const overviewTarget = document.querySelector("#overview-top-runs");
+    const boardTarget = document.querySelector("#scoreboard-body");
+    if (overviewTarget) overviewTarget.innerHTML = `<p class="loading-text">Failed to load ${DATA_PATH}: ${error.message}</p>`;
+    if (boardTarget) {
+      boardTarget.innerHTML = `
+        <tr>
+          <td colspan="7">Leaderboard data could not be loaded. Start a local static server or deploy to GitHub Pages.</td>
+        </tr>
+      `;
     }
-    const payload = await response.json();
-    efficiencyRows = payload.rows || [];
-    renderEfficiency(efficiencySort.value);
-  } catch (error) {
-    efficiencyBody.innerHTML = `
-      <tr>
-        <td colspan="8">
-          Efficiency data could not be loaded. Start a local static server or deploy to GitHub Pages.
-        </td>
-      </tr>
-    `;
-    efficiencyCards.innerHTML = "";
-    efficiencyNote.textContent = `Failed to load ${EFFICIENCY_PATH}: ${error.message}`;
   }
 }
 
-loadEfficiency();
+bindLeaderboardControls();
+loadLeaderboard();

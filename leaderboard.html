@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leaderboard | ORAgentBench</title>
+    <meta
+      name="description"
+      content="ORAgentBench leaderboard over 107 execution-grounded operations research tasks."
+    >
+    <meta name="oragentbench-site-version" content="2026-06-16-overview-leaderboard-v1">
+    <link rel="stylesheet" href="styles.css?v=2026-06-16-overview-leaderboard-v1">
+  </head>
+  <body data-page="leaderboard">
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="ORAgentBench home">
+        <img src="assets/brand/oragentbench-logo.svg?v=2026-06-16-overview-leaderboard-v1" alt="ORAgentBench">
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Overview</a>
+        <a class="active" href="leaderboard.html">Leaderboard</a>
+        <span aria-disabled="true">Tasks</span>
+      </nav>
+    </header>
+
+    <main>
+      <section class="leaderboard-hero" aria-labelledby="leaderboard-title">
+        <p class="eyebrow">Leaderboard</p>
+        <h1 id="leaderboard-title">ORAgentBench results over 107 tasks</h1>
+        <p>
+          Compare autonomous agents by pass rate, feasibility, and normalized quality across
+          easy, medium, and hard operations research tasks.
+        </p>
+      </section>
+
+      <section class="leaderboard-section" aria-label="Leaderboard table">
+        <div class="leaderboard-toolbar">
+          <div class="segmented-control" role="tablist" aria-label="Leaderboard split">
+            <button class="active" type="button" data-board-tab="overall">Overall</button>
+            <button type="button" data-board-tab="easy">Easy</button>
+            <button type="button" data-board-tab="medium">Medium</button>
+            <button type="button" data-board-tab="hard">Hard</button>
+          </div>
+          <div class="board-actions">
+            <button type="button" id="image-button" title="Open print dialog">Image</button>
+            <button type="button" id="share-button" title="Copy leaderboard link">Share</button>
+          </div>
+        </div>
+
+        <div class="leaderboard-shell">
+          <table class="scoreboard">
+            <colgroup>
+              <col class="score-rank">
+              <col class="score-model">
+              <col class="score-main">
+              <col class="score-metric">
+              <col class="score-metric">
+              <col class="score-metric">
+              <col class="score-metric">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Model</th>
+                <th scope="col" id="primary-metric-heading">Pass Rate</th>
+                <th scope="col">Feasibility</th>
+                <th scope="col">Quality</th>
+                <th scope="col">Passed</th>
+                <th scope="col">Harness</th>
+              </tr>
+            </thead>
+            <tbody id="scoreboard-body">
+              <tr>
+                <td colspan="7">Loading leaderboard...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="score-cards" id="score-cards" aria-label="Leaderboard cards"></div>
+        <p class="table-note" id="leaderboard-note">
+          Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>ORAgentBench</span>
+      <span>Execution-grounded evaluation for operations research agents.</span>
+    </footer>
+
+    <script src="script.js?v=2026-06-16-overview-leaderboard-v1"></script>
+  </body>
+</html>
