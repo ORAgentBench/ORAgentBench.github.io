@@ -37,14 +37,7 @@ const splitConfig = {
   },
 };
 
-const brandStyles = [
-  { bg: "#111318", fg: "#ffffff", bar: "#f59e0b" },
-  { bg: "#0d6b63", fg: "#ffffff", bar: "#2563eb" },
-  { bg: "#6f2b18", fg: "#ffffff", bar: "#b45309" },
-  { bg: "#e9eef7", fg: "#1f2937", bar: "#2f6fed" },
-  { bg: "#111827", fg: "#ffffff", bar: "#63738a" },
-  { bg: "#f3f4f6", fg: "#111827", bar: "#16a34a" },
-];
+const barPalette = ["#2563eb", "#f59e0b", "#16a34a", "#b45309", "#63738a", "#0d7a75"];
 
 function percent(value, digits = 1) {
   return `${(value * 100).toFixed(digits)}%`;
@@ -54,28 +47,33 @@ function decimal(value) {
   return value.toFixed(3);
 }
 
-function initials(name) {
-  return name
-    .replace(/Claude /g, "")
-    .replace(/DeepSeek /g, "DS ")
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-}
-
 function providerName(row) {
   if (row.agent.startsWith("Claude")) return "Anthropic";
   if (row.agent.startsWith("GPT")) return "OpenAI";
   if (row.agent.startsWith("DeepSeek")) return "DeepSeek";
   if (row.agent.startsWith("Kimi")) return "Moonshot AI";
   if (row.agent.startsWith("GLM")) return "Zhipu AI";
-  if (row.agent.startsWith("Qwen")) return "Alibaba";
+  if (row.agent.startsWith("Qwen")) return "Qwen";
   if (row.agent.startsWith("MiMo")) return "Xiaomi";
   if (row.agent.startsWith("MiniMax")) return "MiniMax";
   return row.harness;
+}
+
+function modelLogo(row) {
+  if (row.agent.startsWith("GPT")) return { key: "gpt", src: "assets/logos/gpt.svg", alt: "OpenAI" };
+  if (row.agent.startsWith("Claude")) return { key: "claude", src: "assets/logos/claude.svg", alt: "Claude" };
+  if (row.agent.startsWith("DeepSeek")) return { key: "deepseek", src: "assets/logos/deepseek.svg", alt: "DeepSeek" };
+  if (row.agent.startsWith("Kimi")) return { key: "moonshotai", src: "assets/logos/moonshotai.svg", alt: "Moonshot AI" };
+  if (row.agent.startsWith("GLM")) return { key: "zhipu", src: "assets/logos/zhipu.svg", alt: "Zhipu AI" };
+  if (row.agent.startsWith("Qwen")) return { key: "qwen", src: "assets/logos/qwen.svg", alt: "Qwen" };
+  if (row.agent.startsWith("MiMo")) return { key: "xiaomi", src: "assets/logos/xiaomi.svg", alt: "Xiaomi" };
+  if (row.agent.startsWith("MiniMax")) return { key: "minimax", src: "assets/logos/minimax.svg", alt: "MiniMax" };
+  return { key: "oragentbench", src: "assets/brand/oragentbench-logo.svg", alt: "ORAgentBench" };
+}
+
+function modelIcon(row) {
+  const logo = modelLogo(row);
+  return `<span class="model-avatar logo-${logo.key}"><img src="${logo.src}?v=${SITE_VERSION}" alt="${logo.alt}" loading="lazy"></span>`;
 }
 
 function sortedRows(split = activeSplit) {
@@ -95,20 +93,17 @@ function renderOverview() {
 
   target.innerHTML = sortedRows("overall")
     .slice(0, 5)
-    .map((row, index) => {
-      const style = brandStyles[index % brandStyles.length];
-      return `
+    .map((row, index) => `
         <article class="snapshot-row">
           <span class="rank ${index < 3 ? "top" : ""}">${index + 1}</span>
-          <span class="model-avatar" style="--avatar-bg:${style.bg};--avatar-fg:${style.fg}">${initials(row.agent)}</span>
+          ${modelIcon(row)}
           <div>
             <strong>${row.agent}</strong>
             <span>${providerName(row)} · ${row.harness}</span>
           </div>
           <em>${percent(row.pass_rate_all)}</em>
         </article>
-      `;
-    })
+      `)
     .join("");
 }
 
@@ -130,20 +125,19 @@ function renderLeaderboard(split = activeSplit) {
   activeSplit = split;
   const config = splitConfig[split];
   const rows = sortedRows(split);
-  const maxPass = Math.max(...rows.map((row) => row[config.passKey]), 0.01);
   if (heading) heading.textContent = config.label;
 
   body.innerHTML = rows
     .map((row, index) => {
-      const style = brandStyles[index % brandStyles.length];
       const pass = row[config.passKey];
-      const width = `${Math.max(3, (pass / maxPass) * 100).toFixed(1)}%`;
+      const width = `${Math.max(0, Math.min(pass, 1) * 100).toFixed(1)}%`;
+      const barColor = barPalette[index % barPalette.length];
       return `
         <tr class="${index === 0 ? "leader-row" : ""}">
           <td><span class="rank ${index < 3 ? "top" : ""}">${index + 1}</span></td>
           <td>
             <div class="model-cell">
-              <span class="model-avatar" style="--avatar-bg:${style.bg};--avatar-fg:${style.fg}">${initials(row.agent)}</span>
+              ${modelIcon(row)}
               <div>
                 <strong>${row.agent}</strong>
                 <span>${providerName(row)}</span>
@@ -152,7 +146,7 @@ function renderLeaderboard(split = activeSplit) {
           </td>
           <td>
             <div class="score-bar-cell">
-              <span class="score-track"><span style="width:${width};background:${style.bar}"></span></span>
+              <span class="score-track"><span style="width:${width};background:${barColor}"></span></span>
               <strong>${percent(pass)}</strong>
             </div>
           </td>
@@ -166,13 +160,11 @@ function renderLeaderboard(split = activeSplit) {
     .join("");
 
   cards.innerHTML = rows
-    .map((row, index) => {
-      const style = brandStyles[index % brandStyles.length];
-      return `
+    .map((row, index) => `
         <article class="score-card">
           <div class="card-head">
             <span class="rank ${index < 3 ? "top" : ""}">${index + 1}</span>
-            <span class="model-avatar" style="--avatar-bg:${style.bg};--avatar-fg:${style.fg}">${initials(row.agent)}</span>
+            ${modelIcon(row)}
             <div>
               <h3>${row.agent}</h3>
               <p>${providerName(row)} · ${row.harness}</p>
@@ -197,8 +189,7 @@ function renderLeaderboard(split = activeSplit) {
             </div>
           </div>
         </article>
-      `;
-    })
+      `)
     .join("");
 
   renderLeaderboardNote();

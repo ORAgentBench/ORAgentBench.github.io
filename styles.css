@@ -631,11 +631,23 @@ code {
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  background: var(--avatar-bg, var(--ink));
-  color: var(--avatar-fg, var(--white));
+  border: 1px solid #eceff3;
+  background: var(--white);
+  color: var(--ink);
   font-size: 13px;
   font-weight: 950;
   letter-spacing: 0;
+}
+
+.model-avatar img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.model-avatar.logo-qwen img {
+  width: 36px;
+  height: 18px;
 }
 
 .score-bar-cell {
