@@ -98,7 +98,7 @@ img {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(13, 17, 23, 0.92), rgba(13, 17, 23, 0.70), rgba(13, 17, 23, 0.22)),
-    url("assets/brand/hero-background.png?v=2026-06-16-overview-leaderboard-v1") center / cover no-repeat;
+    url("assets/brand/hero-background.png?v=2026-07-04-arxiv-figures-v1") center / cover no-repeat;
 }
 
 .hero-content {

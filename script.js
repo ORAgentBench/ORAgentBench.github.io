@@ -1,4 +1,4 @@
-const SITE_VERSION = "2026-06-16-overview-leaderboard-v1";
+const SITE_VERSION = "2026-07-04-arxiv-figures-v1";
 const DATA_PATH = `assets/data/leaderboard.json?v=${SITE_VERSION}`;
 
 const page = document.body.dataset.page;
@@ -111,7 +111,6 @@ function renderLeaderboardNote() {
   const note = document.querySelector("#leaderboard-note");
   if (!note) return;
   note.innerHTML = `
-    Source: <code>ICLR_2027_ORBench/sections/experiment.tex</code>, main results table.
     Pass: <code>${metricNotes.pass || "feasibility > 0 and normalized quality > 0.4"}</code>.
   `;
 }

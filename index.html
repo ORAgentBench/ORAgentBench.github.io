@@ -8,13 +8,13 @@
       name="description"
       content="ORAgentBench is an execution-grounded benchmark for evaluating autonomous agents on challenging end-to-end operations research tasks."
     >
-    <meta name="oragentbench-site-version" content="2026-06-16-overview-leaderboard-v1">
-    <link rel="stylesheet" href="styles.css?v=2026-06-16-overview-leaderboard-v1">
+    <meta name="oragentbench-site-version" content="2026-07-04-arxiv-figures-v1">
+    <link rel="stylesheet" href="styles.css?v=2026-07-04-arxiv-figures-v1">
   </head>
   <body data-page="overview">
     <header class="site-header" aria-label="Primary navigation">
       <a class="brand" href="index.html" aria-label="ORAgentBench home">
-        <img src="assets/brand/oragentbench-logo.svg?v=2026-06-16-overview-leaderboard-v1" alt="ORAgentBench">
+        <img src="assets/brand/oragentbench-logo.svg?v=2026-07-04-arxiv-figures-v1" alt="ORAgentBench">
       </a>
       <nav class="nav-links">
         <a class="active" href="index.html">Overview</a>
@@ -35,7 +35,7 @@
           </p>
           <div class="hero-actions" aria-label="Project links">
             <a class="button primary" href="leaderboard.html">View Leaderboard</a>
-            <a class="button secondary is-disabled" href="#" aria-disabled="true">arXiv Coming Soon</a>
+            <a class="button secondary" href="https://arxiv.org/abs/2606.19787" rel="noreferrer">arXiv Paper</a>
             <a class="button secondary" href="https://github.com/ORAgentBench/ORAgentBench" rel="noreferrer">GitHub Challenge</a>
           </div>
         </div>
@@ -67,16 +67,16 @@
         </div>
         <div class="news-list">
           <article>
-            <time datetime="2026-06-16">06/16/2026</time>
-            <p>ORAgentBench project page refreshed with an overview page and a dedicated leaderboard.</p>
+            <time datetime="2026-07-04">07/04/2026</time>
+            <p>ORAgentBench code is available at <a href="https://github.com/ORAgentBench/ORAgentBench" rel="noreferrer">ORAgentBench/ORAgentBench</a>.</p>
           </article>
           <article>
-            <time datetime="2026-06-09">06/09/2026</time>
+            <time datetime="2026-06-18">06/18/2026</time>
+            <p>ORAgentBench paper is available on arXiv at <a href="https://arxiv.org/abs/2606.19787" rel="noreferrer">arXiv:2606.19787</a>.</p>
+          </article>
+          <article>
+            <time datetime="2026-06-18">06/18/2026</time>
             <p>Main leaderboard published with 14 complete model-agent rows over 107 executable OR tasks.</p>
-          </article>
-          <article>
-            <time datetime="2026-06-09">06/09/2026</time>
-            <p>Benchmark figures released for task composition, construction, pass-threshold curves, and failure modes.</p>
           </article>
         </div>
       </section>
@@ -169,6 +169,10 @@
             <figcaption>Pass-rate sensitivity under stricter normalized quality thresholds.</figcaption>
           </figure>
           <figure>
+            <img src="assets/figures/solution-methods.png" alt="Solution-method behavior patterns across model-task trajectories">
+            <figcaption>Solution-method behavior patterns across classifiable, deduplicated model-task records.</figcaption>
+          </figure>
+          <figure>
             <img src="assets/figures/failure-distribution.png" alt="Failure-mode distribution across non-passing trajectories">
             <figcaption>Failure-mode diagnostics across model-agent rows.</figcaption>
           </figure>
@@ -179,13 +183,16 @@
         <div class="section-heading compact">
           <p class="eyebrow">Citation</p>
           <h2>BibTeX</h2>
-          <p>Formal arXiv metadata will replace this placeholder after release.</p>
+          <p>ORAgentBench is available on arXiv as <a href="https://arxiv.org/abs/2606.19787" rel="noreferrer">arXiv:2606.19787</a>.</p>
         </div>
-        <pre class="citation-block"><code>@misc{oragentbench2026,
+        <pre class="citation-block"><code>@misc{li2026oragentbench,
   title        = {ORAgentBench: Can LLM Agents Solve Challenging Operations Research Tasks End to End?},
-  author       = {Jiajun Li},
+  author       = {Jiajun Li and Mingshu Cai and Yixuan Li and Yu Ding and Ran Hou and Guanyu Nie and Xiongwei Han and Wanyuan Wang},
   year         = {2026},
-  note         = {arXiv coming soon}
+  eprint       = {2606.19787},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  doi          = {10.48550/arXiv.2606.19787}
 }</code></pre>
       </section>
     </main>
@@ -195,6 +202,6 @@
       <span>Execution-grounded evaluation for operations research agents.</span>
     </footer>
 
-    <script src="script.js?v=2026-06-16-overview-leaderboard-v1"></script>
+    <script src="script.js?v=2026-07-04-arxiv-figures-v1"></script>
   </body>
 </html>
